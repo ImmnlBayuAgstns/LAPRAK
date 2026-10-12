@@ -1,0 +1,25 @@
+| Column                 | Data Type   | Description                                                          | Example    |
+| ---------------------- | ----------- | -------------------------------------------------------------------- | ---------- |
+| Patient_ID             | Integer     | Unique identifier assigned to each patient.                          | 100001     |
+| Age                    | Integer     | Age of the patient in years.                                         | 45         |
+| Gender                 | Categorical | Gender of the patient (Female or Male).                              | Female     |
+| BMI                    | Float       | Body Mass Index (kg/m²).                                             | 27.2       |
+| Family_History         | Categorical | Indicates whether the patient has a family history of breast cancer. | Yes        |
+| Smoking                | Categorical | Indicates whether the patient is a smoker.                           | No         |
+| Alcohol_Consumption    | Categorical | Indicates whether the patient consumes alcohol.                      | Yes        |
+| Physical_Activity      | Categorical | Physical activity level (Low, Moderate, High).                       | Moderate   |
+| Hormone_Therapy        | Categorical | Indicates whether the patient has received hormone therapy.          | No         |
+| Menopause_Status       | Categorical | Menopause status of the patient.                                     | Post       |
+| Genetic_Mutation       | Categorical | Indicates the presence of a breast cancer–related genetic mutation.  | Positive   |
+| Tumor_Size_cm          | Float       | Estimated tumor size in centimeters.                                 | 2.46       |
+| Lymph_Node_Involvement | Categorical | Indicates whether nearby lymph nodes are involved.                   | Yes        |
+| Mammogram_Result       | Categorical | Mammography screening result.                                        | Suspicious |
+| Biopsy_Result          | Categorical | Result of biopsy examination.                                        | Malignant  |
+| Cancer_Stage           | Categorical | Clinical stage of breast cancer or **No Cancer**.                    | Stage II   |
+| Cancer                 | Integer     | Target variable (0 = No Cancer, 1 = Cancer).                         | 1          |
+| Blood_Pressure         | Integer     | Estimated systolic blood pressure (mmHg).                            | 128        |
+| Cholesterol            | Integer     | Estimated cholesterol level (mg/dL).                                 | 196        |
+| Diabetes               | Categorical | Indicates whether the patient has diabetes.                          | No         |
+| Exercise_Days_Per_Week | Integer     | Number of days the patient exercises each week (0–7).                | 5          |
+| Breastfeeding_History  | Categorical | Breastfeeding history (Yes, No, Not Applicable).                     | Yes        |
+| Annual_Income_USD      | Integer     | Estimated annual income in U.S. dollars.                             | 65000      |
