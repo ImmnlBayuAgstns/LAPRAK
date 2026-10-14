@@ -36,6 +36,44 @@ Fitur yang digunakan oleh API adalah:
 
 Informasi lengkap mengenai setiap kolom dapat dilihat pada `data_dictionary.csv`. Kolom seperti `Patient_ID`, `Biopsy_Result`, `Cancer_Stage`, dan `Cancer` tersedia pada dataset untuk kebutuhan analisis atau evaluasi, tetapi tidak dikirim sebagai fitur input API.
 
+## Eksplorasi Data
+
+Eksplorasi data dilakukan di dalam notebook untuk memahami karakteristik dataset dan hubungan fitur dengan target `Cancer`. Tahapan yang dilakukan meliputi:
+
+- memeriksa struktur, tipe data, dan statistik deskriptif dataset;
+- memeriksa nilai yang hilang pada setiap kolom;
+- melihat distribusi target kanker (`0` dan `1`);
+- membandingkan distribusi fitur kategorikal berdasarkan status kanker menggunakan count plot;
+- membandingkan fitur numerik berdasarkan status kanker menggunakan box plot.
+
+Notebook menemukan nilai yang hilang pada beberapa fitur, antara lain `BMI`, `Alcohol_Consumption`, `Physical_Activity`, `Hormone_Therapy`, dan `Tumor_Size_cm`. Penanganan nilai hilang dilakukan di dalam pipeline prapemrosesan sehingga proses pelatihan dan prediksi menggunakan aturan yang konsisten.
+
+## Prapemrosesan dan Pemodelan
+
+Kolom `Patient_ID`, `Biopsy_Result`, dan `Cancer_Stage` dikeluarkan dari fitur untuk mencegah penggunaan identitas pasien dan informasi yang berpotensi menjadi kebocoran target. Kolom `Cancer` digunakan sebagai target prediksi. Data kemudian dibagi menjadi data latih dan data uji dengan perbandingan 80:20 serta `random_state=42`.
+
+Prapemrosesan dilakukan berdasarkan jenis fitur:
+
+- fitur numerik diisi menggunakan median dan dinormalisasi dengan `StandardScaler`;
+- fitur biner diisi menggunakan nilai yang paling sering muncul dan dikodekan dengan `OneHotEncoder`;
+- `Physical_Activity` dikodekan secara ordinal dengan urutan `Low`, `Moderate`, dan `High`;
+- fitur kategorikal nominal seperti `Mammogram_Result` dan `Breastfeeding_History` dikodekan dengan one-hot encoding;
+- kategori yang belum pernah ditemui saat prediksi ditangani dengan `handle_unknown='ignore'`.
+
+Setelah prapemrosesan, data latih memiliki 23 fitur hasil transformasi. Tiga model klasifikasi dibandingkan, yaitu Logistic Regression, Random Forest, dan Gradient Boosting.
+
+### Hasil Perbandingan Model
+
+Berikut hasil evaluasi pada data uji yang tercatat di notebook:
+
+| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Logistic Regression | 0,915 | 0,702 | 0,929 | 0,800 | 0,974 |
+| Random Forest | 0,958 | 1,000 | 0,770 | 0,870 | 0,976 |
+| Gradient Boosting | **0,981** | **1,000** | **0,896** | **0,945** | **0,977** |
+
+Gradient Boosting dipilih sebagai model yang disimpan karena memberikan hasil keseluruhan terbaik pada evaluasi notebook, terutama berdasarkan accuracy, recall, F1-score, dan ROC-AUC. Pipeline lengkapnya disimpan sebagai `breast_cancer_GBC_model.pkl` dan digunakan kembali oleh API pada `deploy.py`.
+
 ## Persyaratan
 
 - Python 3.9 atau lebih baru
@@ -83,7 +121,7 @@ Windows Command Prompt:
 3. Buka `breast_cancer_prediction.ipynb`.
 4. Jalankan sel secara berurutan.
 
-Notebook melakukan pemuatan data, eksplorasi, prapemrosesan fitur kategorikal dan numerik, pelatihan beberapa model klasifikasi, evaluasi menggunakan metrik klasifikasi, serta menyimpan pipeline Gradient Boosting sebagai `breast_cancer_GBC_model.pkl`.
+Notebook melakukan seluruh alur analisis, mulai dari pemuatan data dan eksplorasi, pemeriksaan nilai hilang, pembagian data, prapemrosesan fitur kategorikal dan numerik, pelatihan beberapa model klasifikasi, evaluasi menggunakan accuracy, precision, recall, F1-score, ROC-AUC, dan confusion matrix, hingga penyimpanan pipeline Gradient Boosting sebagai `breast_cancer_GBC_model.pkl`.
 
 ## Menjalankan API Flask
 
